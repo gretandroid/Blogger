@@ -6,9 +6,9 @@
 ----
 se rendre sur http://localhost:8080/api/people +
 pour récuperer le json des persons +
-et http://localhost:8080/api/articles pour recuprer les articles.
+et http://localhost:8080/api/articles pour récupérer les articles.
 
 si cela bloque a relancer taper ceci:
 ----
-./gradle --stop
+./gradlew --stop
 ----
