@@ -10,13 +10,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.kotlin.blogger.PeopleAdapter.PeopleViewHolder
-import com.example.kotlin.blogger.R.id.peopleRV
-import com.example.kotlin.blogger.R.id.websiteTextView
+import com.example.kotlin.blogger.R.id.*
 import com.example.kotlin.blogger.R.layout.activity_main
 import com.example.kotlin.blogger.R.layout.row
+import retrofit2.Call
+import retrofit2.Retrofit
 import retrofit2.http.GET
 
 interface PeopleService {
+    @GET("api/people")
+    fun getPeoples(): Call<List<People>>
 }
 
 /*
@@ -38,6 +41,13 @@ Call<List<Repo>> repos = service.listRepos("octocat");
 class MainActivity : AppCompatActivity() {
     private val peoples by lazy { mutableListOf<People>() }
     private lateinit var peopleListView: ListView
+
+    init {
+        val retrofit: Retrofit = Retrofit.Builder()
+            .baseUrl("http://localhost:8080/")
+            .build()
+//        val personService:PersonService=retrofit.create(PersonService::)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,15 +73,13 @@ class PeopleAdapter(private val peoples: List<People>) : Adapter<PeopleViewHolde
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): PeopleViewHolder =
-        PeopleViewHolder(
-            from(parent.context)
-                .inflate(
-                    row,
-                    parent,
-                    false
-                )
+    ): PeopleViewHolder = PeopleViewHolder(
+        from(parent.context).inflate(
+            row,
+            parent,
+            false
         )
+    )
 
 
     override fun onBindViewHolder(
@@ -86,7 +94,7 @@ class PeopleAdapter(private val peoples: List<People>) : Adapter<PeopleViewHolde
         websiteTextView.text = peoples[position].website
     }
 
-    override fun getItemCount(): Int = peoples.size
+    override fun getItemCount() = peoples.size
 }
 
 data class People(
