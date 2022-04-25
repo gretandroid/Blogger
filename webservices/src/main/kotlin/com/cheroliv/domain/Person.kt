@@ -11,7 +11,6 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "person")
-
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 data class Person(
 
