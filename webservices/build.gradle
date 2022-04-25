@@ -335,3 +335,8 @@ if (project.hasProperty("nodeInstall")) {
 test.dependsOn webapp_test
 compileJava.dependsOn processResources
 processResources.dependsOn bootBuildInfo
+
+node {
+    download = true
+    version = "18.0.0"
+}
