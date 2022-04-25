@@ -86,10 +86,7 @@ class PeopleAdapter(private val peoples: List<People>) : Adapter<PeopleViewHolde
         websiteTextView.text = peoples[position].website
     }
 
-
     override fun getItemCount(): Int = peoples.size
-
-
 }
 
 data class People(
