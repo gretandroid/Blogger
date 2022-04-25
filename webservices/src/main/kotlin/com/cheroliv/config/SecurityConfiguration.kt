@@ -71,6 +71,7 @@ class SecurityConfiguration(
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
+            .antMatchers("/api/coucou").permitAll()
             .antMatchers("/api/people").permitAll()
             .antMatchers("/api/articles").permitAll()
             .antMatchers("/api/authenticate").permitAll()
