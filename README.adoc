@@ -1,0 +1,9 @@
+= Blogger project : webservices consumer
+
+== pour lancer le webservice :
+----
+./gradlew serve
+----
+se rendre sur http://localhost:8080/api/people +
+pour récuperer le json des persons +
+et http://localhost:8080/api/articles pour recuprer les articles.
