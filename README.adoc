@@ -12,3 +12,38 @@ si cela bloque a relancer taper ceci:
 ----
 ./gradlew --stop
 ----
+
+==== Intaller postgresql
+https://github.com/gretandroid/postgresql-snap[ref postgresql]
+----
+sudo snap install postgresql10
+----
+
+affiche les infos sur le server postgresql
+----
+snap info postgresql10
+----
+==== Lister les utilisateurs et groupes
+https://doc.ubuntu-fr.org/tutoriel/gestion_utilisateurs_et_groupes_en_ligne_de_commande[ref users&groups] +
+===== Afficher la liste des utilisateurs :
+----
+cat /etc/passwd | awk -F: '{print $ 1}'
+----
+===== Afficher la liste des groupes
+----
+cat /etc/group | awk -F: '{print $ 1}'
+----
+===== ajouter l'utilisateur postgres
+----
+adduser postgres
+----
+
+===== liste des commandes disponible avec le package postgresql10
+----
+ls /snap/postgresql10/current/*.wrapper
+----
+
+===== passer en user postgres
+----
+sudo -i -u postgres
+----
