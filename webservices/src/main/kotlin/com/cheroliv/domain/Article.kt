@@ -12,7 +12,6 @@ import javax.validation.constraints.*
 
 @Entity
 @Table(name = "article")
-
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 data class Article(
 
