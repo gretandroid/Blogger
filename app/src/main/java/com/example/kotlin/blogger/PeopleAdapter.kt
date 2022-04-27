@@ -1,12 +1,17 @@
 package com.example.kotlin.blogger
 
-import android.view.LayoutInflater
+import android.view.LayoutInflater.from
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Adapter
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.kotlin.blogger.PeopleAdapter.PeopleViewHolder
+import com.example.kotlin.blogger.R.layout.row
 
-class PeopleAdapter(private val peoples: List<People>) : RecyclerView.Adapter<PeopleAdapter.PeopleViewHolder>() {
+class PeopleAdapter(
+    private val peoples: List<People>
+) : Adapter<PeopleViewHolder>() {
 
 
     class PeopleViewHolder(
@@ -17,14 +22,14 @@ class PeopleAdapter(private val peoples: List<People>) : RecyclerView.Adapter<Pe
         var emailTextView: TextView = itemView.findViewById(R.id.emailTextView),
         var companyTextView: TextView = itemView.findViewById(R.id.companyTextView),
         var websiteTextView: TextView = itemView.findViewById(R.id.websiteTextView)
-    ) : RecyclerView.ViewHolder(itemView)
+    ) : ViewHolder(itemView)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): PeopleViewHolder = PeopleViewHolder(
-        LayoutInflater.from(parent.context).inflate(
-            R.layout.row,
+        from(parent.context).inflate(
+            row,
             parent,
             false
         )

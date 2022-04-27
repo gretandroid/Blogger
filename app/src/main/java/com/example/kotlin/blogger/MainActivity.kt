@@ -3,21 +3,20 @@ package com.example.kotlin.blogger
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.example.kotlin.blogger.R.layout.activity_main
-import com.example.kotlin.blogger.RetrofitInstance.instance
+import com.example.kotlin.blogger.RetrofitInstance.articleService
+import com.example.kotlin.blogger.RetrofitInstance.peopleService
 import com.example.kotlin.blogger.databinding.ActivityMainBinding
 import com.example.kotlin.blogger.databinding.ActivityMainBinding.inflate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
-import retrofit2.Call
 import retrofit2.Retrofit.Builder
 import retrofit2.converter.moshi.MoshiConverterFactory.create
 import retrofit2.http.GET
 
 interface PeopleService {
     @GET("api/people")
-    fun getPeoples(): Call<List<People>>
+    suspend fun getPeoples(): List<People>
 }
 
 interface ArticleService {
@@ -29,22 +28,25 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         var cpt = 0
-        Log.d("articles", "titi : ${++cpt}")
+//        Log.d("articles", "titi : ${++cpt}")
         super.onCreate(savedInstanceState)
-        Log.d("articles", "titi : ${++cpt}")
+//        Log.d("articles", "titi : ${++cpt}")
         binding = inflate(layoutInflater)
-        Log.d("articles", "titi : ${++cpt}")
-        setContentView(activity_main)
-        Log.d("articles", "titi : ${++cpt}")
+//        Log.d("articles", "titi : ${++cpt}")
+        setContentView(binding.root)
+//        Log.d("articles", "titi : ${++cpt}")
+        Log.d("_binding", binding.allArticlesButton.text.toString())
         binding.allArticlesButton.setOnClickListener {
             Log.d("articles", "titi : ${++cpt}")
-            CoroutineScope (IO).launch {
-                val articles = instance.getAllArticles()
+            CoroutineScope(IO).launch {
+                val articles = articleService.getAllArticles()
                 Log.d("articles", articles.toString())
+                val peoples = peopleService.getPeoples()
+                Log.d("\n\npeoples", peoples.toString())
             }
-            Log.d("articles", "titi : ${++cpt}")
+//            Log.d("articles", "titi : ${++cpt}")
         }
-        Log.d("articles", "titi : ${++cpt}")
+//        Log.d("articles", "titi : ${++cpt}")
     }
 }
 
@@ -56,8 +58,12 @@ object RetrofitInstance {
             .addConverterFactory(create())
             .build()
     }
-    val instance: ArticleService by lazy {
+    val articleService: ArticleService by lazy {
         retroFit.create(ArticleService::class.java)
+
+    }
+    val peopleService by lazy {
+        retroFit.create(PeopleService::class.java)
     }
 }
 
