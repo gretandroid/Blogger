@@ -12,3 +12,11 @@ si cela bloque a relancer taper ceci:
 ----
 ./gradlew --stop
 ----
+
+si il y a un probleme avec husky
+----
+cd webservices
+git init
+nvm use 14.15.0
+./gradlew
+----
