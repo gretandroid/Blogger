@@ -28,15 +28,23 @@ interface ArticleService {
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
+        var cpt = 0
+        Log.d("articles", "titi : ${++cpt}")
         super.onCreate(savedInstanceState)
+        Log.d("articles", "titi : ${++cpt}")
         binding = inflate(layoutInflater)
+        Log.d("articles", "titi : ${++cpt}")
         setContentView(activity_main)
+        Log.d("articles", "titi : ${++cpt}")
         binding.allArticlesButton.setOnClickListener {
-            CoroutineScope(IO).launch {
+            Log.d("articles", "titi : ${++cpt}")
+            CoroutineScope (IO).launch {
                 val articles = instance.getAllArticles()
+                Log.d("articles", articles.toString())
             }
+            Log.d("articles", "titi : ${++cpt}")
         }
-        Log.d("articles", "titi")
+        Log.d("articles", "titi : ${++cpt}")
     }
 }
 
@@ -68,3 +76,4 @@ data class Article(
     val content: String,
     val personId: Long,
 )
+
