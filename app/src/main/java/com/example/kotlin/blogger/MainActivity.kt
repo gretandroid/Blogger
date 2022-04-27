@@ -1,15 +1,20 @@
 package com.example.kotlin.blogger
 
+//import com.example.kotlin.blogger.ArticleAdapter.ArticleViewHolder
+//import com.example.kotlin.blogger.PeopleAdapter.PeopleViewHolder
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.VISIBLE
 import com.example.kotlin.blogger.RetrofitInstance.articleService
 import com.example.kotlin.blogger.RetrofitInstance.peopleService
 import com.example.kotlin.blogger.databinding.ActivityMainBinding
 import com.example.kotlin.blogger.databinding.ActivityMainBinding.inflate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Retrofit.Builder
 import retrofit2.converter.moshi.MoshiConverterFactory.create
 import retrofit2.http.GET
@@ -26,27 +31,38 @@ interface ArticleService {
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var articleRV: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
-        var cpt = 0
-//        Log.d("articles", "titi : ${++cpt}")
         super.onCreate(savedInstanceState)
-//        Log.d("articles", "titi : ${++cpt}")
         binding = inflate(layoutInflater)
-//        Log.d("articles", "titi : ${++cpt}")
         setContentView(binding.root)
-//        Log.d("articles", "titi : ${++cpt}")
-        Log.d("_binding", binding.allArticlesButton.text.toString())
         binding.allArticlesButton.setOnClickListener {
-            Log.d("articles", "titi : ${++cpt}")
-            CoroutineScope(IO).launch {
-                val articles = articleService.getAllArticles()
-                Log.d("articles", articles.toString())
-                val peoples = peopleService.getPeoples()
-                Log.d("\n\npeoples", peoples.toString())
+
+
+            CoroutineScope(Main).launch {
+
+                var bool = true
+                withContext(IO) {
+                    Thread.sleep(3000)
+                    val articles = articleService.getAllArticles()
+                    val peoples = peopleService.getPeoples()
+
+
+                }
+                if (!bool) binding.progressBar.visibility = VISIBLE
+
             }
-//            Log.d("articles", "titi : ${++cpt}")
+
+
         }
-//        Log.d("articles", "titi : ${++cpt}")
+//suite du code https://github.com/gretandroid/thang-webservice
+
+//        CoroutineScope(IO).launch {
+//            articleRV = findViewById(R.id.articleRV)
+//            articleRV.adapter = ArticleAdapter(articleService.getAllArticles())
+//            articleRV.layoutManager = LinearLayoutManager(this@MainActivity)
+//        }
+
     }
 }
 
@@ -83,3 +99,81 @@ data class Article(
     val personId: Long,
 )
 
+
+//class PeopleAdapter(
+//    private val peoples: List<People>
+//) : Adapter<PeopleViewHolder>() {
+//
+//    class PeopleViewHolder(
+//        itemView: View,
+//        var peopleIdTextView: TextView = itemView.findViewById(R.id.peopleIdTextView),
+//        var nameTextView: TextView = itemView.findViewById(R.id.nameTextView),
+//        var usernameTextView: TextView = itemView.findViewById(R.id.usernameTextView),
+//        var emailTextView: TextView = itemView.findViewById(R.id.emailTextView),
+//        var companyTextView: TextView = itemView.findViewById(R.id.companyTextView),
+//        var websiteTextView: TextView = itemView.findViewById(R.id.websiteTextView)
+//    ) : ViewHolder(itemView)
+//
+//    override fun onCreateViewHolder(
+//        parent: ViewGroup,
+//        viewType: Int
+//    ): PeopleViewHolder = PeopleViewHolder(
+//        from(parent.context).inflate(
+//            row,
+//            parent,
+//            false
+//        )
+//    )
+//
+//
+//    override fun onBindViewHolder(
+//        holder: PeopleViewHolder,
+//        position: Int
+//    ) = holder.run {
+//        peopleIdTextView.text = peoples[position].id.toString()
+//        nameTextView.text = peoples[position].name
+//        usernameTextView.text = peoples[position].username
+//        emailTextView.text = peoples[position].email
+//        companyTextView.text = peoples[position].company
+//        websiteTextView.text = peoples[position].website
+//    }
+//
+//    override fun getItemCount() = peoples.size
+//}
+//
+//class ArticleAdapter(
+//    private val articles: List<Article>
+//) : Adapter<ArticleViewHolder>() {
+//
+//
+//    class ArticleViewHolder(
+//        itemView: View,
+//        var peopleIdTextView: TextView = itemView.findViewById(R.id.articleIdTextView),
+//        var nameTextView: TextView = itemView.findViewById(R.id.titleTextView),
+//        var usernameTextView: TextView = itemView.findViewById(R.id.contentTextView),
+//    ) : ViewHolder(itemView)
+//
+//    override fun onCreateViewHolder(
+//        parent: ViewGroup,
+//        viewType: Int
+//    ): ArticleViewHolder = ArticleViewHolder(
+//        from(parent.context).inflate(
+//            row,
+//            parent,
+//            false
+//        )
+//    )
+//
+//
+//    override fun onBindViewHolder(
+//        holder: ArticleViewHolder,
+//        position: Int
+//    ) = holder.run {
+//        peopleIdTextView.text = articles[position].id.toString()
+//        nameTextView.text = articles[position].title
+//        usernameTextView.text = articles[position].content
+//
+//    }
+//
+//    override fun getItemCount() = articles.size
+//}
